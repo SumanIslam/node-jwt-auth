@@ -8,6 +8,7 @@ require('dotenv').config();
 
 // middleware
 app.use(express.static('public'));
+app.use(express.json());
 
 // view engine
 app.set('view engine', 'ejs');

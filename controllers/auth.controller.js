@@ -5,10 +5,14 @@ const loginGET = (req, res) => {
   res.render('login')
 }
 const signupPOST = (req, res) => {
-  res.send('new signup')
+  const { email, password } = req.body;
+  console.log(email, password);
+  res.send(req.body)
 }
 const loginPOST = (req, res) => {
-  res.send('new login')
+  const { email, password } = req.body;
+  console.log(email, password);
+  res.send(req.body)
 }
 
 module.exports = {
