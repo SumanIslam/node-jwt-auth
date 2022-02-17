@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+const authRouter = require('./routes/auth.router');
+
 const app = express();
 require('dotenv').config();
 
@@ -9,6 +11,13 @@ app.use(express.static('public'));
 
 // view engine
 app.set('view engine', 'ejs');
+
+// routes
+app.use('/auth', authRouter);
+
+app.get('/', (req, res) => res.render('home'));
+app.get('/smoothies', (req, res) => res.render('smoothies'));
+
 
 // database connection
 const dbURI = process.env.MONGO_URL;
@@ -19,7 +28,3 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
     console.log('mongodb is connected');
   }))
   .catch((err) => console.log(err));
-
-// routes
-app.get('/', (req, res) => res.render('home'));
-app.get('/smoothies', (req, res) => res.render('smoothies'));
