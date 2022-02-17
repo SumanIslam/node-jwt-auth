@@ -23,7 +23,7 @@ app.get('/smoothies', (req, res) => res.render('smoothies'));
 // database connection
 const dbURI = process.env.MONGO_URL;
 
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
   .then((result) => app.listen(3000, () => {
     console.log('Server is running on port 3000...');
     console.log('mongodb is connected');
