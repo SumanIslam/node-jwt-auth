@@ -14,7 +14,6 @@ const handleErrors = err => {
   // duplicate email error code
   if(err.code === 11000) {
     errors.email = 'that email is already registered';
-    return errors;
   }
 
   // validation errors
@@ -50,7 +49,7 @@ const signupPOST = async (req, res) => {
       httpOnly: true,
       maxAge: maxAge * 1000
     })
-    res.status(201).json(user._id);
+    res.status(201).json({ user: user._id });
   } catch(err) {
     const errors = handleErrors(err);
     res.status(400).json({errors});
