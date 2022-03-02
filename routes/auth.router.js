@@ -4,7 +4,8 @@ const {
   signupGET,
   signupPOST,
   loginGET,
-  loginPOST
+  loginPOST,
+  logoutGET,
 } = require('../controllers/auth.controller');
 
 const authRouter = express.Router();
@@ -17,5 +18,6 @@ authRouter.get('/login', loginGET);
 
 authRouter.post('/login', loginPOST);
 
+authRouter.get('/logout', logoutGET)
 
 module.exports = authRouter;
