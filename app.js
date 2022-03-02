@@ -17,11 +17,10 @@ app.use(cookieParser());
 app.set('view engine', 'ejs');
 
 // routes
-app.use('/auth', authRouter);
-
 app.get('*', checkUser)
 app.get('/', (req, res) => res.render('home'));
 app.get('/smoothies', checkAuthentication, (req, res) => res.render('smoothies'));
+app.use('/auth', authRouter);
 
 
 // database connection
