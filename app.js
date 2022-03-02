@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
-const checkAuthentication = require('./middleware/auth.middleware');
+const { checkAuthentication, checkUser } = require('./middleware/auth.middleware');
 
 const authRouter = require('./routes/auth.router');
 
@@ -19,8 +19,9 @@ app.set('view engine', 'ejs');
 // routes
 app.use('/auth', authRouter);
 
+app.get('*', checkUser)
 app.get('/', (req, res) => res.render('home'));
-app.get('/smoothies',checkAuthentication, (req, res) => res.render('smoothies'));
+app.get('/smoothies', checkAuthentication, (req, res) => res.render('smoothies'));
 
 
 // database connection

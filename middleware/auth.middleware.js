@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const userModel = require('../models/user.model');
 require('dotenv').config();
 
 const privateKey = process.env.privateKey;
@@ -8,7 +9,6 @@ const checkAuthentication = async (req, res, next) => {
   console.log(req.cookies);
   if(!token) {
     res.redirect('/auth/login');
-    // return res.status(400).json({errors: 'No Token Found'})
   } else {
     try {
       const user = await jwt.verify(token, privateKey);
@@ -18,10 +18,33 @@ const checkAuthentication = async (req, res, next) => {
         next();
       }
     } catch(err) {
-      // res.redirect('/auth/login');
-      return res.status(400).json({errors: 'Invalid Token'});
+      res.redirect('/auth/login');
     }
   }
 }
 
-module.exports = checkAuthentication;
+const checkUser = async (req, res, next) => {
+  const token = req.cookies.jwt;
+  if(!token) {
+    res.locals.user = null;
+    next();
+  } else {  
+    try {
+      const verifiedUser = await jwt.verify(token, privateKey);
+      console.log(verifiedUser);
+
+      if(verifiedUser) {
+        res.locals.user = verifiedUser.id;
+        next();
+      }
+    } catch(err) {
+      res.locals.user = null;
+      next();
+    }
+  }
+}
+
+module.exports = {
+  checkAuthentication,
+  checkUser
+}
