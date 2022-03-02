@@ -11,6 +11,13 @@ const handleErrors = err => {
   console.log(err.message, err.code);
   let errors = { email: '', password: ''};
 
+  if(err.message.includes("Email")) {
+    errors.email = err.message;
+  }
+  if(err.message.includes("password")) {
+    errors.password = err.message;
+  }
+
   // duplicate email error code
   if(err.code === 11000) {
     errors.email = 'that email is already registered';
@@ -66,8 +73,9 @@ const loginPOST = async (req, res) => {
     console.log(user);
     res.status(201).json({ user: user._id })
   } catch(err) {
-    console.log(err.message);
-    res.status(400).json({ error: err.message })
+    // console.log(err.message);
+    const errors = handleErrors(err);
+    res.status(400).json({ errors })
   }
 }
 

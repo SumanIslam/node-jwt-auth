@@ -41,16 +41,11 @@
 			});
 
 			const data = await res.json();
+			console.log(data.errors);
 
-			if (data.error) {
-        const emailErr = data.error.includes("Email");
-        const passwordErr = data.error.includes("password");
-				if (emailErr) {
-					emailError.textContent = data.error;
-				}
-				if (passwordErr) {
-					passwordError.textContent = data.error;
-				}
+			if (data.errors) {
+				emailError.textContent = data.errors.email;
+				passwordError.textContent = data.errors.password;
 			}
 
 			if (data.user) {
