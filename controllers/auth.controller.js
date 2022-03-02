@@ -1,9 +1,9 @@
-var userModel = require('../models/user.model');
 const jwt = require('jsonwebtoken');
+const userModel = require('../models/user.model');
 
 require('dotenv').config();
 
-const privateKey = process.env.privatekey;
+const privateKey = process.env.privateKey;
 const maxAge = 3 * 24 * 60 * 60;
 
 // handle errors
@@ -71,6 +71,8 @@ const loginPOST = async (req, res) => {
   try {
     const user = await userModel.login(email, password);
     console.log(user);
+    const token = createToken(user._id);
+    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(201).json({ user: user._id })
   } catch(err) {
     // console.log(err.message);
